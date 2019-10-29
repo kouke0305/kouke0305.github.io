@@ -5,25 +5,25 @@
   
 
   
-  <title>七乘三十一</title>
+  <title>jvm调优实践 | 七乘三十一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
   
   <meta name="keywords" content="汪 ， 汪 ，汪">
   
-  <meta name="description" content="GC和GC Tuning作者：马士兵教育 http://mashibing.com GC的基础知识1.什么是垃圾 C语言申请内存：malloc free C++： new delete c/c++需要手动回收内存 Java: new ？ 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：  忘记回收 多次回收   没有任何引用指向的一个对象或者循环引用多个对象  —–">
+  <meta name="description" content="GC和GC TuningGC的基础知识1.什么是垃圾· C语言申请内存：malloc free·· C++： new delete·· c/c++需要手动回收内存·· Java: new ？·· 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：·· 1. 忘记回收· 2. 多次回收 没有任何引用指向的一个对象或者循环引用多个对象  —– 垃圾 2.如何定位垃圾 引用计">
 <meta name="keywords" content="汪 ， 汪 ，汪">
 <meta property="og:type" content="article">
-<meta property="og:title" content="七乘三十一">
+<meta property="og:title" content="jvm调优实践">
 <meta property="og:url" content="http://kouke0305.github.io/2019/10/29/GC and Tuning/index.html">
 <meta property="og:site_name" content="七乘三十一">
-<meta property="og:description" content="GC和GC Tuning作者：马士兵教育 http://mashibing.com GC的基础知识1.什么是垃圾 C语言申请内存：malloc free C++： new delete c/c++需要手动回收内存 Java: new ？ 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：  忘记回收 多次回收   没有任何引用指向的一个对象或者循环引用多个对象  —–">
+<meta property="og:description" content="GC和GC TuningGC的基础知识1.什么是垃圾· C语言申请内存：malloc free·· C++： new delete·· c/c++需要手动回收内存·· Java: new ？·· 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：·· 1. 忘记回收· 2. 多次回收 没有任何引用指向的一个对象或者循环引用多个对象  —– 垃圾 2.如何定位垃圾 引用计">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-29T06:56:45.141Z">
+<meta property="og:updated_time" content="2019-10-29T08:11:43.616Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="七乘三十一">
-<meta name="twitter:description" content="GC和GC Tuning作者：马士兵教育 http://mashibing.com GC的基础知识1.什么是垃圾 C语言申请内存：malloc free C++： new delete c/c++需要手动回收内存 Java: new ？ 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：  忘记回收 多次回收   没有任何引用指向的一个对象或者循环引用多个对象  —–">
+<meta name="twitter:title" content="jvm调优实践">
+<meta name="twitter:description" content="GC和GC TuningGC的基础知识1.什么是垃圾· C语言申请内存：malloc free·· C++： new delete·· c/c++需要手动回收内存·· Java: new ？·· 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：·· 1. 忘记回收· 2. 多次回收 没有任何引用指向的一个对象或者循环引用多个对象  —– 垃圾 2.如何定位垃圾 引用计">
   
     <link rel="alternate" href="/atom.xml" title="七乘三十一" type="application/atom+xml">
   
@@ -40,7 +40,7 @@
 <body>
   <div id="fullpage" class="mobile-nav-right">
     
-      <div id="wrapper" title="图片来自网络">
+      <div id="wrapper" title="背景图片来自网络">
     
     
       <header id="header">
@@ -66,6 +66,16 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main"><article id="post-GC and Tuning" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      jvm调优实践
+    </h1>
+  
+
+    </header>
+  
   <div class="article-meta">
     <a href="/2019/10/29/GC and Tuning/" class="article-date">
   <time datetime="2019-10-29T07:52:41.407Z" itemprop="datePublished">2019-10-29</time>
@@ -83,18 +93,7 @@
     
     <div class="article-content article-content-cloud" itemprop="articleBody">
       
-        <h1 id="GC和GC-Tuning"><a href="#GC和GC-Tuning" class="headerlink" title="GC和GC Tuning"></a>GC和GC Tuning</h1><p>作者：马士兵教育 <a href="http://mashibing.com" target="_blank" rel="noopener">http://mashibing.com</a></p>
-<h3 id="GC的基础知识"><a href="#GC的基础知识" class="headerlink" title="GC的基础知识"></a>GC的基础知识</h3><h4 id="1-什么是垃圾"><a href="#1-什么是垃圾" class="headerlink" title="1.什么是垃圾"></a>1.什么是垃圾</h4><blockquote>
-<p>C语言申请内存：malloc free</p>
-<p>C++： new delete</p>
-<p>c/c++需要手动回收内存</p>
-<p>Java: new ？</p>
-<p>自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：</p>
-<ol>
-<li>忘记回收</li>
-<li>多次回收</li>
-</ol>
-</blockquote>
+        <h1 id="GC和GC-Tuning"><a href="#GC和GC-Tuning" class="headerlink" title="GC和GC Tuning"></a>GC和GC Tuning</h1><h3 id="GC的基础知识"><a href="#GC的基础知识" class="headerlink" title="GC的基础知识"></a>GC的基础知识</h3><h4 id="1-什么是垃圾"><a href="#1-什么是垃圾" class="headerlink" title="1.什么是垃圾"></a>1.什么是垃圾</h4><p>· C语言申请内存：malloc free<br>·<br>· C++： new delete<br>·<br>· c/c++需要手动回收内存<br>·<br>· Java: new ？<br>·<br>· 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：<br>·<br>· 1. 忘记回收<br>· 2. 多次回收</p>
 <p>没有任何引用指向的一个对象或者循环引用多个对象  —– 垃圾</p>
 <h4 id="2-如何定位垃圾"><a href="#2-如何定位垃圾" class="headerlink" title="2.如何定位垃圾"></a>2.如何定位垃圾</h4><ol>
 <li>引用计数 reference  count  （不能解决循环引用的问题）</li>
@@ -162,8 +161,7 @@
 </li>
 </ul>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
-<li><a href="https://blogs.oracle.com/jonthecollector/our-collectors" target="_blank" rel="noopener">https://blogs.oracle.com/
- </a><a href="https://blogs.oracle.com/jonthecollector/our-collectors" target="_blank" rel="noopener">jonthecollector</a><a href="https://blogs.oracle.com/jonthecollector/our-collectors" target="_blank" rel="noopener">/our-collectors</a></li>
+<li><a href="https://blogs.oracle.com/jonthecollector/our-collectors" target="_blank" rel="noopener">https://blogs.oracle.com/jonthecollector/our-collector</a></li>
 <li><a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html" target="_blank" rel="noopener">https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html</a></li>
 <li><a href="http://java.sun.com/javase/technologies/hotspot/vmoptions.jsp" target="_blank" rel="noopener">http://java.sun.com/javase/technologies/hotspot/vmoptions.jsp</a></li>
 </ol>
@@ -220,11 +218,11 @@ gitment.render('gitmentContainer')
     <img class="avatar" src="/images/default-avatar.jpg" title="图片来自网络"></img>
     <h3 class="avatar-name">
       
-        ROCK CODER  摇滚程序员
+        ROCK CODER
       
     </h3>
     <p class="avatar-slogan">
-      说不出什么像样的话
+      你走的时候没有带走美猴王得画像
     </p>
   </div>
 </div>
@@ -255,7 +253,7 @@ gitment.render('gitmentContainer')
       <ul>
         
           <li>
-            <a href="/2019/10/29/GC and Tuning/">(no title)</a>
+            <a href="/2019/10/29/GC and Tuning/">jvm调优实践</a>
           </li>
         
           <li>
