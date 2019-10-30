@@ -12,18 +12,34 @@
   
   <meta name="keywords" content="汪 ， 汪 ，汪">
   
-  <meta name="description" content="GC和GC TuningGC的基础知识1.什么是垃圾· C语言申请内存：malloc free·· C++： new delete·· c/c++需要手动回收内存·· Java: new ？·· 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：·· 1. 忘记回收· 2. 多次回收 没有任何引用指向的一个对象或者循环引用多个对象  —– 垃圾 2.如何定位垃圾 引用计">
+  <meta name="description" content="GC和GC TuningGC的基础知识 Jdk 11   zgc  10ms （垃圾收集器的停顿时间）Azul  zing    1ms  收费      c4 • -Xms:初始堆大小• -Xmx:最大堆大小• xmn新生代大小 1.什么是垃圾· C语言申请内存：malloc free·· C++： new delete·· c/c++需要手动回收内存·· Java: new ？·· 自动内存回">
 <meta name="keywords" content="汪 ， 汪 ，汪">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jvm调优实践">
 <meta property="og:url" content="http://kouke0305.github.io/2019/10/29/GC and Tuning/index.html">
 <meta property="og:site_name" content="七乘三十一">
-<meta property="og:description" content="GC和GC TuningGC的基础知识1.什么是垃圾· C语言申请内存：malloc free·· C++： new delete·· c/c++需要手动回收内存·· Java: new ？·· 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：·· 1. 忘记回收· 2. 多次回收 没有任何引用指向的一个对象或者循环引用多个对象  —– 垃圾 2.如何定位垃圾 引用计">
+<meta property="og:description" content="GC和GC TuningGC的基础知识 Jdk 11   zgc  10ms （垃圾收集器的停顿时间）Azul  zing    1ms  收费      c4 • -Xms:初始堆大小• -Xmx:最大堆大小• xmn新生代大小 1.什么是垃圾· C语言申请内存：malloc free·· C++： new delete·· c/c++需要手动回收内存·· Java: new ？·· 自动内存回">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-29T08:11:43.616Z">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/jvm1.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/jvm2.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/GCRoots.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/MSALG.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/copyalg.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/MCALG.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/HEAPS.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/objectnew-dead.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/GC.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/CMS.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/PN-PS.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/example1.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/loggc.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/task1.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/task2.png">
+<meta property="og:updated_time" content="2019-10-30T07:38:40.598Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm调优实践">
-<meta name="twitter:description" content="GC和GC TuningGC的基础知识1.什么是垃圾· C语言申请内存：malloc free·· C++： new delete·· c/c++需要手动回收内存·· Java: new ？·· 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：·· 1. 忘记回收· 2. 多次回收 没有任何引用指向的一个对象或者循环引用多个对象  —– 垃圾 2.如何定位垃圾 引用计">
+<meta name="twitter:description" content="GC和GC TuningGC的基础知识 Jdk 11   zgc  10ms （垃圾收集器的停顿时间）Azul  zing    1ms  收费      c4 • -Xms:初始堆大小• -Xmx:最大堆大小• xmn新生代大小 1.什么是垃圾· C语言申请内存：malloc free·· C++： new delete·· c/c++需要手动回收内存·· Java: new ？·· 自动内存回">
+<meta name="twitter:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/jvm1.png">
   
     <link rel="alternate" href="/atom.xml" title="七乘三十一" type="application/atom+xml">
   
@@ -93,18 +109,22 @@
     
     <div class="article-content article-content-cloud" itemprop="articleBody">
       
-        <h1 id="GC和GC-Tuning"><a href="#GC和GC-Tuning" class="headerlink" title="GC和GC Tuning"></a>GC和GC Tuning</h1><h3 id="GC的基础知识"><a href="#GC的基础知识" class="headerlink" title="GC的基础知识"></a>GC的基础知识</h3><h4 id="1-什么是垃圾"><a href="#1-什么是垃圾" class="headerlink" title="1.什么是垃圾"></a>1.什么是垃圾</h4><p>· C语言申请内存：malloc free<br>·<br>· C++： new delete<br>·<br>· c/c++需要手动回收内存<br>·<br>· Java: new ？<br>·<br>· 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：<br>·<br>· 1. 忘记回收<br>· 2. 多次回收</p>
+        <h1 id="GC和GC-Tuning"><a href="#GC和GC-Tuning" class="headerlink" title="GC和GC Tuning"></a>GC和GC Tuning</h1><h3 id="GC的基础知识"><a href="#GC的基础知识" class="headerlink" title="GC的基础知识"></a>GC的基础知识</h3><p><img src="../img/jvmtuning/jvm1.png" alt><br><img src="../img/jvmtuning/jvm2.png" alt></p>
+<p>Jdk 11   zgc  10ms （垃圾收集器的停顿时间）<br>Azul  zing    1ms  收费      c4</p>
+<p>• -Xms:初始堆大小<br>• -Xmx:最大堆大小<br>• xmn新生代大小</p>
+<h4 id="1-什么是垃圾"><a href="#1-什么是垃圾" class="headerlink" title="1.什么是垃圾"></a>1.什么是垃圾</h4><p>· C语言申请内存：malloc free<br>·<br>· C++： new delete<br>·<br>· c/c++需要手动回收内存<br>·<br>· Java: new ？<br>·<br>· 自动内存回收，编程上简单，系统不容易出错，手动释放内存，容易出两种类型的问题：<br>·<br>· 1. 忘记回收<br>· 2. 多次回收</p>
 <p>没有任何引用指向的一个对象或者循环引用多个对象  —– 垃圾</p>
 <h4 id="2-如何定位垃圾"><a href="#2-如何定位垃圾" class="headerlink" title="2.如何定位垃圾"></a>2.如何定位垃圾</h4><ol>
 <li>引用计数 reference  count  （不能解决循环引用的问题）</li>
-<li>根可达算法    通过根对象能够链接到的</li>
+<li>根可达算法    通过根对象能够链接到的 <img src="../img/jvmtuning/GCRoots.png" alt></li>
 </ol>
 <h4 id="3-常见的垃圾回收算法"><a href="#3-常见的垃圾回收算法" class="headerlink" title="3.常见的垃圾回收算法"></a>3.常见的垃圾回收算法</h4><ol>
-<li>标记清除 Mark Sweep -   两边扫描，效率偏低，位置不连续 产生内存碎片化  适用存活对象较多的情况</li>
-<li>拷贝算法 Copy - 没有碎片，浪费空间</li>
-<li>标记压缩 Mark Compact- 没有碎片，效率偏低(两边扫描，指针需要调整)</li>
+<li>标记清除 Mark Sweep -   两边扫描，效率偏低，位置不连续 产生内存碎片化  适用存活对象较多的情况<img src="../img/jvmtuning/MSALG.png" alt></li>
+<li>拷贝算法 Copy - 没有碎片，浪费空间 <img src="../img/jvmtuning/copyalg.png" alt></li>
+<li>标记压缩 Mark Compact- 没有碎片，效率偏低(两边扫描，指针需要调整)<img src="../img/jvmtuning/MCALG.png" alt></li>
 </ol>
-<h4 id="4-JVM内存分代模型（用于分代垃圾回收算法）"><a href="#4-JVM内存分代模型（用于分代垃圾回收算法）" class="headerlink" title="4.JVM内存分代模型（用于分代垃圾回收算法）"></a>4.JVM内存分代模型（用于分代垃圾回收算法）</h4><ol>
+<h4 id="4-JVM内存分代模型（用于分代垃圾回收算法）"><a href="#4-JVM内存分代模型（用于分代垃圾回收算法）" class="headerlink" title="4.JVM内存分代模型（用于分代垃圾回收算法）"></a>4.JVM内存分代模型（用于分代垃圾回收算法）</h4><p><img src="../img/jvmtuning/HEAPS.png" alt><br><img src="../img/jvmtuning/objectnew-dead.png" alt></p>
+<ol>
 <li>部分垃圾回收器使用的模型</li>
 <li>新生代 + 老年代 + 永久代（1.7）/ 元数据区(1.8) Metaspace<ol>
 <li>永久代 元数据 - Class</li>
@@ -133,31 +153,101 @@
 </ol>
 </li>
 </ol>
-<h4 id="5-常见的垃圾回收器"><a href="#5-常见的垃圾回收器" class="headerlink" title="5.常见的垃圾回收器"></a>5.常见的垃圾回收器</h4><ol>
+<h4 id="5-常见的垃圾回收器-（所有的都会产生stw）"><a href="#5-常见的垃圾回收器-（所有的都会产生stw）" class="headerlink" title="5.常见的垃圾回收器 （所有的都会产生stw）"></a>5.常见的垃圾回收器 （所有的都会产生stw）</h4><p><img src="../img/jvmtuning/GC.png" alt></p>
+<ol>
 <li>Serial 年轻代 串行回收   单线程  会产生STW ，找到一个safe point （安全点）执行gc</li>
 <li>Parallel Scavenge 年轻代 并行回收  有STW  吞吐量优先 </li>
 <li>ParNew 年轻代 为了和配合CMS的并行回收      响应时间优先</li>
 <li>SerialOld    单线程</li>
 <li>ParallelOld</li>
-<li>ConcurrentMarkSweep 老年代 并发的， 垃圾回收和应用程序同时运行，降低STW的时间(200ms)</li>
+<li>ConcurrentMarkSweep 老年代 并发的， 垃圾回收和应用程序同时运行，降低STW的时间(200ms) <img src="../img/jvmtuning/CMS.png" alt></li>
 <li>G1(10ms)</li>
 <li>ZGC (1ms) PK C++</li>
 <li>Shenandoah</li>
 <li>Eplison</li>
 </ol>
-<p>1.8默认的垃圾回收：PS + ParallelOld</p>
+<p>1.8默认的垃圾回收：PS + ParallelOld<br><img src="../img/jvmtuning/PN-PS.png" alt></p>
 <h4 id="6-JVM调优第一步，了解生产环境下的垃圾回收器组合"><a href="#6-JVM调优第一步，了解生产环境下的垃圾回收器组合" class="headerlink" title="6.JVM调优第一步，了解生产环境下的垃圾回收器组合"></a>6.JVM调优第一步，了解生产环境下的垃圾回收器组合</h4><ul>
 <li><p>JVM的命令行参数参考：<a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html" target="_blank" rel="noopener">https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html</a></p>
 </li>
-<li><p>JVM参数分类</p>
+<li><p>HotSpot参数分类<br> java -X</p>
 <blockquote>
 <p>标准： - 开头，所有的HotSpot都支持</p>
 <p>非标准：-X 开头，特定版本HotSpot支持特定命令</p>
 <p>不稳定：-XX 开头，下个版本可能取消</p>
 </blockquote>
-<p>-XX:+PrintCommandLineFlags </p>
-<p>-XX:+PrintFlagsFinal 最终参数值</p>
-<p>-XX:+PrintFlagsInitial 默认参数值</p>
+</li>
+<li><p>测试代码</p>
+<blockquote>
+<p>psvm<br>sout(hellogc)<br>list<br>for(){<br>byte [] = new byte[1024*1024]<br>list.add<br>}</p>
+</blockquote>
+<ol>
+<li><p>java -XX:+PrintCommandLineFlags  HelloGC</p>
+</li>
+<li><p>java -Xmn 10M -Xms 10M -Xmx 40M -XX:+PrintCommandLineFlags  HelloGC</p>
+</li>
+<li><p>-XX:+PrintFlagsFinal 最终参数值</p>
+</li>
+<li><p>-XX:+PrintFlagsInitial 默认参数值<br>java -XX:+PrintFlagsFinal | wc -l   统计结果有多少行</p>
+</li>
+<li><p>java -XX:+UseConcMarkSweepGC   [文件名] 指定GC</p>
+</li>
+<li><p>java -XX:+PrintFlagsFinal -version | grep SerialGC  在查询得结果中搜索 ‘SerialGC’</p>
+</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li><p>常见得垃圾回收器组合(1,8)</p>
+<blockquote>
+<p>-XX:+UseSerialGC = Serial New(DefNew) +Serial Old<br>-XX:UseParNewGC  =  ParNew + SerialOld</p>
+<blockquote>
+<p> 这个组合已经很少用，（在某些版本已经废弃）</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>UseConc<font color="red">(urrent)</font>MarkSweepGC = ParNew + CMS + SerialOld </p>
+<blockquote>
+<p>老年代用标记清除长时间产生大量碎片化，会触发一次SerialOld得FGC,如果内存特别大得话会很慢.<br>使用CMS一定要避免频繁得FGC</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>UseParallelGC = Parallel Scavenge + Parallel Old <font color="red">(1.8默认)</font> </p>
+<blockquote>
+<p>[PS+SerialOld]</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>UseParallelOldGC = Parallel Scavenge + Parallel Old<br>UseG1GC</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="7-调优-从规划开始"><a href="#7-调优-从规划开始" class="headerlink" title="7.调优 从规划开始"></a>7.调优 从规划开始</h4><p><img src="../img/jvmtuning/example1.png" alt></p>
+<ul>
+<li><p>调优，从业务场景开始，没有业务场景得调优是耍流氓</p>
+</li>
+<li><p>无监控，不调优</p>
+</li>
+<li><p>步骤：</p>
+<ol>
+<li><p>熟悉业务场景（没有最好的垃圾回收器，只有最合适的）</p>
+<ol>
+<li>响应时间、停顿时间</li>
+<li>吞吐量 = 用户时间/用户时间+GC时间</li>
+</ol>
+</li>
+<li><p>选择回收器组合</p>
+</li>
+<li><p>计算内存需求</p>
+</li>
+<li><p>设定年代大小，升级年龄</p>
+</li>
+<li><p>设定日志参数<br> java -Xloggc:/root/gc-%t.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLofFileSize=20M -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCCsuse  (jdk9(包含)之后不再好用， 去除了UseGCLogFileRotation这个参数)<br> 1.9开始参考下文<br>java -Xlog:gc:file=gctrace.txt<font color="red"><strong>::</strong></font> filecount=5,filesize=1M<br> <a href="https://docs.oracle.com/javase/10/tools/java.htm#JSWOR-GUID-BE93ABDC-999C-4CB5-A88B-1994AAAC74D5" target="_blank" rel="noopener">https://docs.oracle.com/javase/10/tools/java.htm#JSWOR-GUID-BE93ABDC-999C-4CB5-A88B-1994AAAC74D5</a></p>
+</li>
+<li><p>观察日志情况<br><img src="../img/jvmtuning/loggc.png" alt><br>小问题：Linux下使用的垃圾回收器的版本看不出来<br>1.8.0_181 看不出来   copy  + mark compact<br>1.8.0_222  默认 ps + po</p>
+<p>调优 跟使用的jdk版本有巨大的关系</p>
+</li>
+</ol>
 </li>
 </ul>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
@@ -165,6 +255,7 @@
 <li><a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html" target="_blank" rel="noopener">https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html</a></li>
 <li><a href="http://java.sun.com/javase/technologies/hotspot/vmoptions.jsp" target="_blank" rel="noopener">http://java.sun.com/javase/technologies/hotspot/vmoptions.jsp</a></li>
 </ol>
+<h3 id="习题"><a href="#习题" class="headerlink" title="习题"></a>习题</h3><p><img src="../img/jvmtuning/task1.png" alt><br><img src="../img/jvmtuning/task2.png" alt></p>
 
       
     </div>
