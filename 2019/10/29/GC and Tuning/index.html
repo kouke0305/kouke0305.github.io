@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/loggc.png">
 <meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/task1.png">
 <meta property="og:image" content="http://kouke0305.github.io/2019/10/29/img/jvmtuning/task2.png">
-<meta property="og:updated_time" content="2019-10-30T07:38:40.598Z">
+<meta property="og:updated_time" content="2019-10-31T08:59:22.704Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm调优实践">
 <meta name="twitter:description" content="GC和GC TuningGC的基础知识 Jdk 11   zgc  10ms （垃圾收集器的停顿时间）Azul  zing    1ms  收费      c4 • -Xms:初始堆大小• -Xmx:最大堆大小• xmn新生代大小 1.什么是垃圾· C语言申请内存：malloc free·· C++： new delete·· c/c++需要手动回收内存·· Java: new ？·· 自动内存回">
@@ -171,16 +171,18 @@
 <li><p>JVM的命令行参数参考：<a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html" target="_blank" rel="noopener">https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html</a></p>
 </li>
 <li><p>HotSpot参数分类<br> java -X</p>
-<blockquote>
-<p>标准： - 开头，所有的HotSpot都支持</p>
-<p>非标准：-X 开头，特定版本HotSpot支持特定命令</p>
-<p>不稳定：-XX 开头，下个版本可能取消</p>
-</blockquote>
+<ol>
+<li><p>标准： - 开头，所有的HotSpot都支持</p>
+</li>
+<li><p>非标准：-X 开头，特定版本HotSpot支持特定命令</p>
+</li>
+<li><p>不稳定：-XX 开头，下个版本可能取消</p>
+</li>
+</ol>
 </li>
 <li><p>测试代码</p>
-<blockquote>
-<p>psvm<br>sout(hellogc)<br>list<br>for(){<br>byte [] = new byte[1024*1024]<br>list.add<br>}</p>
-</blockquote>
+ <div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sout(hellogc)</span><br><span class="line">list </span><br><span class="line">for()&#123;</span><br><span class="line"> byte [] = new byte[1024*1024]</span><br><span class="line"> list.add</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
 <ol>
 <li><p>java -XX:+PrintCommandLineFlags  HelloGC</p>
 </li>
@@ -199,30 +201,23 @@
 </ul>
 <ul>
 <li><p>常见得垃圾回收器组合(1,8)</p>
-<blockquote>
-<p>-XX:+UseSerialGC = Serial New(DefNew) +Serial Old<br>-XX:UseParNewGC  =  ParNew + SerialOld</p>
-<blockquote>
-<p> 这个组合已经很少用，（在某些版本已经废弃）</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>UseConc<font color="red">(urrent)</font>MarkSweepGC = ParNew + CMS + SerialOld </p>
-<blockquote>
-<p>老年代用标记清除长时间产生大量碎片化，会触发一次SerialOld得FGC,如果内存特别大得话会很慢.<br>使用CMS一定要避免频繁得FGC</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>UseParallelGC = Parallel Scavenge + Parallel Old <font color="red">(1.8默认)</font> </p>
-<blockquote>
-<p>[PS+SerialOld]</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>UseParallelOldGC = Parallel Scavenge + Parallel Old<br>UseG1GC</p>
-</blockquote>
+<ol>
+<li><p>-XX:+UseSerialGC = Serial New(DefNew) +Serial Old</p>
+</li>
+<li><p>-XX:UseParNewGC  =  ParNew + SerialOld<br>这个组合已经很少用，（在某些版本已经废弃）</p>
+</li>
+<li><p>UseConc<font color="red">(urrent)</font>MarkSweepGC = ParNew + CMS + SerialOld<br>老年代用标记清除长时间产生大量碎片化，会触发一次SerialOld得FGC,如果内存特别大得话会很慢.<br>使用CMS一定要避免频繁得FGC</p>
+</li>
+<li><p>UseParallelGC = Parallel Scavenge + Parallel Old <font color="red">(1.8默认)</font><br>[PS+SerialOld]</p>
+</li>
+<li><p>UseParallelOldGC = Parallel Scavenge + Parallel Old</p>
+</li>
+<li><p>UseG1GC</p>
+</li>
+</ol>
 </li>
 </ul>
-<h4 id="7-调优-从规划开始"><a href="#7-调优-从规划开始" class="headerlink" title="7.调优 从规划开始"></a>7.调优 从规划开始</h4><p><img src="../img/jvmtuning/example1.png" alt></p>
+<h4 id="7-调优-从规划开始"><a href="#7-调优-从规划开始" class="headerlink" title="7.调优 从规划开始"></a>7.调优 从规划开始</h4><p><img src="../img/jvmtuning/example1.png" alt><br>一台机器也可以干这个事，把eden区设大 ，慢慢处理，只要不触发ygc就ok，之不过这样的风险比较大</p>
 <ul>
 <li><p>调优，从业务场景开始，没有业务场景得调优是耍流氓</p>
 </li>
