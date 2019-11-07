@@ -5,27 +5,35 @@
   
 
   
-  <title>believe | 七乘三十一</title>
+  <title>CMS详解 | 七乘三十一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
   
   <meta name="keywords" content="汪 ， 汪 ，汪">
   
-  <meta name="description" content="Codeing LifeBelieve Future ###">
+  <meta name="description" content="#CMS垃圾收集器 from ：www.mashibing.com 目标：获取最短的STW时间为什么要STW？ 用户线程可能会修改对象的引用sad jvm内存模型 常见的garbage collection 各个GC之间的对比">
 <meta name="keywords" content="汪 ， 汪 ，汪">
 <meta property="og:type" content="article">
-<meta property="og:title" content="believe">
-<meta property="og:url" content="http://kouke0305.github.io/2019/10/28/SkillsOfStack/index.html">
+<meta property="og:title" content="CMS详解">
+<meta property="og:url" content="http://kouke0305.github.io/2019/11/01/cms详解/index.html">
 <meta property="og:site_name" content="七乘三十一">
-<meta property="og:description" content="Codeing LifeBelieve Future ###">
+<meta property="og:description" content="#CMS垃圾收集器 from ：www.mashibing.com 目标：获取最短的STW时间为什么要STW？ 用户线程可能会修改对象的引用sad jvm内存模型 常见的garbage collection 各个GC之间的对比">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://kouke0305.github.io/2019/10/28/img/xxwl.jpg">
-<meta property="og:updated_time" content="2019-11-01T05:45:18.801Z">
+<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/jvm.jpg">
+<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/garbagecollection.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/gc1.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/gc2.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/cms.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/cmsex.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/optimize1.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/optimize2.png">
+<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/optimize3.png">
+<meta property="og:updated_time" content="2019-11-07T06:28:36.752Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="believe">
-<meta name="twitter:description" content="Codeing LifeBelieve Future ###">
-<meta name="twitter:image" content="http://kouke0305.github.io/2019/10/28/img/xxwl.jpg">
+<meta name="twitter:title" content="CMS详解">
+<meta name="twitter:description" content="#CMS垃圾收集器 from ：www.mashibing.com 目标：获取最短的STW时间为什么要STW？ 用户线程可能会修改对象的引用sad jvm内存模型 常见的garbage collection 各个GC之间的对比">
+<meta name="twitter:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/jvm.jpg">
   
     <link rel="alternate" href="/atom.xml" title="七乘三十一" type="application/atom+xml">
   
@@ -66,21 +74,21 @@
   </div>
 </header>
       <div id="middlecontent" title class="global-width sidebar-right">
-        <section id="main"><article id="post-SkillsOfStack" class="article global-container article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-cms详解" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
       
   
     <h1 class="article-title" itemprop="name">
-      believe
+      CMS详解
     </h1>
   
 
     </header>
   
   <div class="article-meta">
-    <a href="/2019/10/28/SkillsOfStack/" class="article-date">
-  <time datetime="2019-10-28T09:22:49.000Z" itemprop="datePublished">2019-10-28</time>
+    <a href="/2019/11/01/cms详解/" class="article-date">
+  <time datetime="2019-11-01T07:43:34.000Z" itemprop="datePublished">2019-11-01</time>
 </a>
     
     
@@ -95,8 +103,13 @@
     
     <div class="article-content article-content-cloud" itemprop="articleBody">
       
-        <h2 id="Codeing-Life"><a href="#Codeing-Life" class="headerlink" title="Codeing Life"></a>Codeing Life</h2><h3 id="Believe-Future"><a href="#Believe-Future" class="headerlink" title="Believe Future"></a>Believe Future</h3><p><img src="../img/xxwl.jpg" alt></p>
-<p>### </p>
+        <p>#CMS垃圾收集器</p>
+<p>from ：<a href="http://www.mashibing.com" target="_blank" rel="noopener">www.mashibing.com</a></p>
+<h2 id="目标："><a href="#目标：" class="headerlink" title="目标："></a>目标：</h2><p>获取最短的STW时间<br>为什么要STW？ 用户线程可能会修改对象的引用<br><a href="../img/jvm-cms/CMS.PDF">sad</a></p>
+<h2 id="jvm内存模型"><a href="#jvm内存模型" class="headerlink" title="jvm内存模型"></a>jvm内存模型</h2><p><img src="../img/jvm-cms/jvm.jpg" alt></p>
+<h2 id="常见的garbage-collection"><a href="#常见的garbage-collection" class="headerlink" title="常见的garbage collection"></a>常见的garbage collection</h2><p><img src="../img/jvm-cms/garbagecollection.png" alt></p>
+<h3 id="各个GC之间的对比"><a href="#各个GC之间的对比" class="headerlink" title="各个GC之间的对比"></a>各个GC之间的对比</h3><p><img src="../img/jvm-cms/gc1.png" alt><br><img src="../img/jvm-cms/gc2.png" alt></p>
+<p><img src="../img/jvm-cms/cms.png" alt><br><img src="../img/jvm-cms/cmsex.png" alt><br><img src="../img/jvm-cms/optimize1.png" alt><br><img src="../img/jvm-cms/optimize2.png" alt><br><img src="../img/jvm-cms/optimize3.png" alt></p>
 
       
     </div>
@@ -111,17 +124,22 @@
 <nav id="article-nav">
   <div class="article-nav-block">
     
-      <a href="/2019/10/29/GC and Tuning/" id="article-nav-newer" class="article-nav-link-wrap">
+      <a href="/2019/11/01/G1学习/" id="article-nav-newer" class="article-nav-link-wrap">
         <strong class="article-nav-caption"></strong>
         <div class="article-nav-title">
           
-            jvm调优实践
+            G1学习
           
         </div>
       </a>
     
   </div>
   <div class="article-nav-block">
+    
+      <a href="/2019/11/01/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">helloworld</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
     
   </div>
 </nav>
