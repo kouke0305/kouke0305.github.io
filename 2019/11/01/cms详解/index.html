@@ -20,20 +20,20 @@
 <meta property="og:site_name" content="七乘三十一">
 <meta property="og:description" content="#CMS垃圾收集器 from ：www.mashibing.com 目标：获取最短的STW时间为什么要STW？ 用户线程可能会修改对象的引用sad jvm内存模型 常见的garbage collection 各个GC之间的对比">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/jvm.jpg">
-<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/garbagecollection.png">
-<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/gc1.png">
-<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/gc2.png">
-<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/cms.png">
-<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/cmsex.png">
-<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/optimize1.png">
-<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/optimize2.png">
-<meta property="og:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/optimize3.png">
-<meta property="og:updated_time" content="2019-11-07T06:28:36.752Z">
+<meta property="og:image" content="http://kouke0305.github.io/img/jvm-cms/jvm.jpg">
+<meta property="og:image" content="http://kouke0305.github.io/img/jvm-cms/garbagecollection.png">
+<meta property="og:image" content="http://kouke0305.github.io/img/jvm-cms/gc1.png">
+<meta property="og:image" content="http://kouke0305.github.io/img/jvm-cms/gc2.png">
+<meta property="og:image" content="http://kouke0305.github.io/img/jvm-cms/cms.png">
+<meta property="og:image" content="http://kouke0305.github.io/img/jvm-cms/cmsex.png">
+<meta property="og:image" content="http://kouke0305.github.io/img/jvm-cms/optimize1.png">
+<meta property="og:image" content="http://kouke0305.github.io/img/jvm-cms/optimize2.png">
+<meta property="og:image" content="http://kouke0305.github.io/img/jvm-cms/optimize3.png">
+<meta property="og:updated_time" content="2019-11-14T09:39:39.060Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CMS详解">
 <meta name="twitter:description" content="#CMS垃圾收集器 from ：www.mashibing.com 目标：获取最短的STW时间为什么要STW？ 用户线程可能会修改对象的引用sad jvm内存模型 常见的garbage collection 各个GC之间的对比">
-<meta name="twitter:image" content="http://kouke0305.github.io/2019/11/01/img/jvm-cms/jvm.jpg">
+<meta name="twitter:image" content="http://kouke0305.github.io/img/jvm-cms/jvm.jpg">
   
     <link rel="alternate" href="/atom.xml" title="七乘三十一" type="application/atom+xml">
   
@@ -66,7 +66,7 @@
         
         >归档</a>
       
-        <a class="nav-item" href="/2019/09/23/hello-world/" title
+        <a class="nav-item" href="/2019/11/01/hello-world/" title
         
         >嘿嘿</a>
       
@@ -105,11 +105,11 @@
       
         <p>#CMS垃圾收集器</p>
 <p>from ：<a href="http://www.mashibing.com" target="_blank" rel="noopener">www.mashibing.com</a></p>
-<h2 id="目标："><a href="#目标：" class="headerlink" title="目标："></a>目标：</h2><p>获取最短的STW时间<br>为什么要STW？ 用户线程可能会修改对象的引用<br><a href="../img/jvm-cms/CMS.PDF">sad</a></p>
-<h2 id="jvm内存模型"><a href="#jvm内存模型" class="headerlink" title="jvm内存模型"></a>jvm内存模型</h2><p><img src="../img/jvm-cms/jvm.jpg" alt></p>
-<h2 id="常见的garbage-collection"><a href="#常见的garbage-collection" class="headerlink" title="常见的garbage collection"></a>常见的garbage collection</h2><p><img src="../img/jvm-cms/garbagecollection.png" alt></p>
-<h3 id="各个GC之间的对比"><a href="#各个GC之间的对比" class="headerlink" title="各个GC之间的对比"></a>各个GC之间的对比</h3><p><img src="../img/jvm-cms/gc1.png" alt><br><img src="../img/jvm-cms/gc2.png" alt></p>
-<p><img src="../img/jvm-cms/cms.png" alt><br><img src="../img/jvm-cms/cmsex.png" alt><br><img src="../img/jvm-cms/optimize1.png" alt><br><img src="../img/jvm-cms/optimize2.png" alt><br><img src="../img/jvm-cms/optimize3.png" alt></p>
+<h2 id="目标："><a href="#目标：" class="headerlink" title="目标："></a>目标：</h2><p>获取最短的STW时间<br>为什么要STW？ 用户线程可能会修改对象的引用<br><a href="/img/jvm-cms/CMS.PDF">sad</a></p>
+<h2 id="jvm内存模型"><a href="#jvm内存模型" class="headerlink" title="jvm内存模型"></a>jvm内存模型</h2><p><img src="/img/jvm-cms/jvm.jpg" alt></p>
+<h2 id="常见的garbage-collection"><a href="#常见的garbage-collection" class="headerlink" title="常见的garbage collection"></a>常见的garbage collection</h2><p><img src="/img/jvm-cms/garbagecollection.png" alt></p>
+<h3 id="各个GC之间的对比"><a href="#各个GC之间的对比" class="headerlink" title="各个GC之间的对比"></a>各个GC之间的对比</h3><p><img src="/img/jvm-cms/gc1.png" alt><br><img src="/img/jvm-cms/gc2.png" alt></p>
+<p><img src="/img/jvm-cms/cms.png" alt><br><img src="/img/jvm-cms/cmsex.png" alt><br><img src="/img/jvm-cms/optimize1.png" alt><br><img src="/img/jvm-cms/optimize2.png" alt><br><img src="/img/jvm-cms/optimize3.png" alt></p>
 
       
     </div>
@@ -279,7 +279,7 @@ document.body.write(script);
   
     <a href="/archives" class="mobile-nav-link">归档</a>
   
-    <a href="/2019/09/23/hello-world/" class="mobile-nav-link">嘿嘿</a>
+    <a href="/2019/11/01/hello-world/" class="mobile-nav-link">嘿嘿</a>
   
   <div class="mobile-nav-img  mobile-nav-bottom"></div>
 </nav>    
