@@ -223,7 +223,40 @@
     
     <div class="article-content article-content-cloud" itemprop="articleBody">
       
-        
+        <h2 id="码云-Git-仓库迁移到-git-jnaw-top-服务器"><a href="#码云-Git-仓库迁移到-git-jnaw-top-服务器" class="headerlink" title="码云 Git 仓库迁移到 git.jnaw.top 服务器"></a>码云 Git 仓库迁移到 git.jnaw.top 服务器</h2><h2 id="公共账户"><a href="#公共账户" class="headerlink" title="公共账户"></a>公共账户</h2><ul>
+<li>账户：git</li>
+<li>密码：git</li>
+</ul>
+<h2 id="免密登录"><a href="#免密登录" class="headerlink" title="免密登录"></a>免密登录</h2><ul>
+<li>先把自己电脑的公钥添加到 git 账户中</li>
+<li><code>~/.ssh/authorized_keys</code> 【追加到此文件中】</li>
+</ul>
+<h2 id="以-ncp-项目为例迁移"><a href="#以-ncp-项目为例迁移" class="headerlink" title="以 ncp 项目为例迁移"></a>以 ncp 项目为例迁移</h2><ul>
+<li>先在新的git服务器上创建一个空的项目ncp</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/cwbu/</span><br><span class="line">mkdir ncp</span><br><span class="line"><span class="built_in">cd</span> ncp</span><br><span class="line">git init --bare</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="克隆旧的仓库，推送到新的服务器"><a href="#克隆旧的仓库，推送到新的服务器" class="headerlink" title="克隆旧的仓库，推送到新的服务器"></a>克隆旧的仓库，推送到新的服务器</h2><ul>
+<li>在本地 Git Bash 中执行命令</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --bare git@gitee.com:allview-cwbu/ncp.git</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>git@gitee.com:allview-cwbu/ncp.git</code> 为原仓库地址</li>
+<li>会生成一个文件夹：ncp.git</li>
+<li>进入文件夹中</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ncp.git</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>推送到新的服务器</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --mirror git@git.jnaw.top:cwbu/ncp</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>git@git.jnaw.top:cwbu/ncp</code> 为新的仓库地址</li>
+</ul>
+
       
     </div>
     
@@ -346,6 +379,42 @@
 </article>
 
   
+    <article id="post-hello-world" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/01/hello-world/">helloworld</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/11/01/hello-world/" class="article-date">
+  <time datetime="2019-11-01T02:31:41.000Z" itemprop="datePublished">2019-11-01</time>
+</a>
+    
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <p><img src="/img/helloworld/mama.png" alt><br><img src="/img/helloworld/1.png" alt><br><img src="/img/helloworld/2.png" alt><br><img src="/img/helloworld/3.png" alt></p>
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-jenkins" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -376,42 +445,6 @@
 <li>centOS服务器上部署遇到插件版本缺失的问题，可以去下面网址下载再手动上传插件 <a href="http://updates.jenkins-ci.org/download/plugins/" target="_blank" rel="noopener">http://updates.jenkins-ci.org/download/plugins/</a></li>
 <li>配置gradle 构建的时候，在高级中可以设置配置的路径<br>${workspace}/backstage_management/backend</li>
 </ol>
-
-      
-    </div>
-    
-  </div>
-  
-  
-</article>
-
-  
-    <article id="post-hello-world" class="article global-container article-type-post" itemscope itemprop="blogPost">
-  
-    <header class="article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/01/hello-world/">helloworld</a>
-    </h1>
-  
-
-    </header>
-  
-  <div class="article-meta">
-    <a href="/2019/11/01/hello-world/" class="article-date">
-  <time datetime="2019-11-01T02:31:41.000Z" itemprop="datePublished">2019-11-01</time>
-</a>
-    
-    
-  </div>
-  
-
-  <div class="article-inner">
-    
-    <div class="article-content article-content-cloud" itemprop="articleBody">
-      
-        <p><img src="/img/helloworld/mama.png" alt><br><img src="/img/helloworld/1.png" alt><br><img src="/img/helloworld/2.png" alt><br><img src="/img/helloworld/3.png" alt></p>
 
       
     </div>
