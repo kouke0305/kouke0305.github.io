@@ -65,6 +65,174 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-服务器安装" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/26/服务器安装/">服务器安装</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/12/26/服务器安装/" class="article-date">
+  <time datetime="2019-12-26T03:54:17.000Z" itemprop="datePublished">2019-12-26</time>
+</a>
+    
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h2 id="1-系统更新"><a href="#1-系统更新" class="headerlink" title="1.系统更新"></a>1.系统更新</h2><ul>
+<li>更新系统，升级系统包</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum update -y</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-用户"><a href="#2-用户" class="headerlink" title="2.用户"></a>2.用户</h2><ul>
+<li>创建用户</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adduser user_xxx</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>删除用户，及用户目录</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">userdel -r user_xxx</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>设置密码</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd user_xxx</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>修改配置文件，添加sudo权限</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo visudo</span><br></pre></td></tr></table></figure></div>
+
+<p>找到这一行 root ALL=(ALL) ALL，复制一行，然后将前面的用户名替换成需要修改的用户名，最后使用 Esc键 + :wq 保存并退出</p>
+<h2 id="3-安装软件"><a href="#3-安装软件" class="headerlink" title="3.安装软件"></a>3.安装软件</h2><h3 id="3-1-docker"><a href="#3-1-docker" class="headerlink" title="3.1 docker"></a>3.1 docker</h3><ul>
+<li>安装所需的软件包 yum-utils提供了yum-config-manager 效用，并device-mapper-persistent-data和lvm2由需要 devicemapper存储驱动程序。（楞恶心）</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>设置稳定版本库</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum-config-manager \</span><br><span class="line">     --add-repo \</span><br><span class="line">     https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>跟新yum包索引</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum makecache fast</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>安装docker-ce</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y docker-ce</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>启动docker</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>查看当前安装版本,验证安装是否成功</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker --version</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>设置开机自启，重新启动服务</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> docker</span><br><span class="line"></span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="3-2-安装-git-zsh-nginx-nodejs-jdk-p7zip-htop"><a href="#3-2-安装-git-zsh-nginx-nodejs-jdk-p7zip-htop" class="headerlink" title="3.2 安装 git zsh nginx  nodejs  jdk p7zip htop"></a>3.2 安装 git zsh nginx  nodejs  jdk p7zip htop</h3><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yun install -y git zsh nginx nodejs java-1.8.0-openjdk-devel  p7zip htop</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="3-3-docker-compose"><a href="#3-3-docker-compose" class="headerlink" title="3.3 docker-compose"></a>3.3 docker-compose</h3><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install docker-compose</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="3-4-Gradle"><a href="#3-4-Gradle" class="headerlink" title="3.4 Gradle"></a>3.4 Gradle</h3><ul>
+<li>下载安装包</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget  https://downloads.gradle.org/distributions/gradle-5.4.1-all.zip</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>解压缩到目录 /usr/software/</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /usr/software/</span><br><span class="line"><span class="built_in">cd</span>  /usr/softwware/</span><br><span class="line">sudo 7za x ~/gradle-5.4.1-all.zip</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>打开环境变量</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/profile</span><br></pre></td></tr></table></figure></div>
+
+<p>将下面代码复制到底部</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># gradle settings start 2019-05-27</span></span><br><span class="line"></span><br><span class="line">GRADLE_HOME=/usr/software/gradle-5.4.1</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;GRADLE_HOME&#125;</span>/bin:<span class="variable">$&#123;PATH&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gradle settings end - 2019-05-27</span></span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>重载这个文件</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>检查安装</li>
+</ul>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradle -version</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="3-5-安装gulp"><a href="#3-5-安装gulp" class="headerlink" title="3.5 安装gulp"></a>3.5 安装gulp</h3><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm i -g gulp</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="3-6-注意"><a href="#3-6-注意" class="headerlink" title="3.6 注意"></a>3.6 注意</h3><p>-新服务器要打开80端口</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看80端口是否开放</span></span><br><span class="line">firewall-cmd --query-port=80/tcp</span><br><span class="line"></span><br><span class="line"><span class="comment">#打开80</span></span><br><span class="line">firewall-cmd --add-port=80/tcp</span><br><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent</span><br></pre></td></tr></table></figure></div>
+
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
+    <article id="post-git仓库迁移" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/26/git仓库迁移/">git仓库迁移</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/12/26/git仓库迁移/" class="article-date">
+  <time datetime="2019-12-26T03:53:05.000Z" itemprop="datePublished">2019-12-26</time>
+</a>
+    
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-集群dockerswarm-cluster" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -505,7 +673,7 @@
   <div class="widget-box">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
     </div>
   </div>
 
@@ -517,6 +685,14 @@
       <ul>
         
           <li>
+            <a href="/2019/12/26/服务器安装/">服务器安装</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/26/git仓库迁移/">git仓库迁移</a>
+          </li>
+        
+          <li>
             <a href="/2019/11/06/集群dockerswarm-cluster/">集群dockerswarm/cluster</a>
           </li>
         
@@ -526,14 +702,6 @@
         
           <li>
             <a href="/2019/11/01/cms详解/">CMS详解</a>
-          </li>
-        
-          <li>
-            <a href="/2019/11/01/jenkins/">jenkins 搭建</a>
-          </li>
-        
-          <li>
-            <a href="/2019/11/01/hello-world/">helloworld</a>
           </li>
         
       </ul>
