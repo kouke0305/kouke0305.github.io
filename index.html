@@ -65,6 +65,212 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-nginx" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/04/nginx/">nginx</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2020/01/04/nginx/" class="article-date">
+  <time datetime="2020-01-04T09:40:34.000Z" itemprop="datePublished">2020-01-04</time>
+</a>
+    
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h2 id="1-nginx是什么"><a href="#1-nginx是什么" class="headerlink" title="1.nginx是什么"></a>1.nginx是什么</h2><ul>
+<li>Nginx是一款轻量级的Web服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器。</li>
+<li>因它的稳定性、丰富的功能集、实例配置文件和低系统资源的消耗而闻名。</li>
+<li>其特点是占有内存少，并发能力强。</li>
+</ul>
+<h2 id="2-正向代理"><a href="#2-正向代理" class="headerlink" title="2.正向代理"></a>2.正向代理</h2><p>正向代理类似一个跳板机，代理访问外部资源。<br><img src="/img/nginx/nginx1.jpg" alt="a"></p>
+<ul>
+<li>总结来说：正向代理是一个位于客户端和原始服务器之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求，并指定目标（原始服务器），然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端必须要进行一些特殊的设置才能使用正向代理。</li>
+</ul>
+<h2 id="3-正向代理的用途"><a href="#3-正向代理的用途" class="headerlink" title="3.正向代理的用途"></a>3.正向代理的用途</h2><ul>
+<li>vpn</li>
+<li>做缓存，加速访问资源</li>
+<li>对客户端访问授权，上网进行认证</li>
+<li>代理可以记录用户的访问记录（上网行为管理），对外隐藏用户信息</li>
+</ul>
+<h2 id="4-反向代理"><a href="#4-反向代理" class="headerlink" title="4.反向代理"></a>4.反向代理</h2><p>反向代理（Reverse Proxy）实际运行方式是指以代理服务器来接受网络上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上的得到的结果返回给网络上请求连接的客户端，此时代理服务器对外就表现为一个服务器。<br><img src="/img/nginx/nginx2.jpg" alt="aa"></p>
+<h2 id="5-反向代理的作用"><a href="#5-反向代理的作用" class="headerlink" title="5.反向代理的作用"></a>5.反向代理的作用</h2><ul>
+<li>保证内网的安全，可以使用反向代理提供WAF功能，阻止web攻击。大型网站通常将反向代理作为公网访问地址，web服务器是内网。</li>
+<li>负载均衡，通过反向代理服务器来优化网站的负载</li>
+</ul>
+<h2 id="6-为什么要使用代理服务器"><a href="#6-为什么要使用代理服务器" class="headerlink" title="6.为什么要使用代理服务器"></a>6.为什么要使用代理服务器</h2><ul>
+<li><p>提高访问速度<br>由于目标主机返回的数据会存放在代理服务器的硬盘中，因此下一次客户再访问相同的站点数据时，会直接从代理服务器的硬盘中读取，起到了缓存的作用，尤其对于热门站点能明显提高请求速度。</p>
+</li>
+<li><p>防火墙作用<br>由于所有的客户机请求都必须通过代理服务器访问远程站点，因此可在代理服务器上设限，过滤某些不安全信息。</p>
+</li>
+<li><p>通过代理服务器访问不能访问的目标站点<br>互联网上有许多开发的代理服务器，客户机在访问受限时，可通过不受限的代理服务器访问目标站点，通俗说，我们使用的翻墙浏览器就是利用了代理服务器，虽然不能出国，但也可直接访问外网。</p>
+</li>
+</ul>
+<h2 id="7-nginx代理配置文件"><a href="#7-nginx代理配置文件" class="headerlink" title="7.nginx代理配置文件"></a>7.nginx代理配置文件</h2><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    location / &#123;</span><br><span class="line">       proxy_pass http://10.92.1.137:8080; <span class="comment"># 应用服务器HTTP地址</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="8-nginx虚拟主机"><a href="#8-nginx虚拟主机" class="headerlink" title="8.nginx虚拟主机"></a>8.nginx虚拟主机</h2><p>在nginx上可以配置多个server，每个server即一个虚拟主机，当nginx接收到请求，获取该请求中的host请求头，将host值与多个server的server_name进行匹配，由匹配成功的那个server来处理请求，然后将请求转发到server中指定不同的服务器。不同的server可以指定不同的tomcat或其它服务器，由服务器来处理请求。当只有一个服务器，所有的请求转发到同一个端口；当有多个服务器时，这些服务器对应的监听不同的端口，则请求根据配置转发到指定的端口，虚拟主机的作用真正发挥。</p>
+<h2 id="9-虚拟主机配置"><a href="#9-虚拟主机配置" class="headerlink" title="9.虚拟主机配置"></a>9.虚拟主机配置</h2><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name www.jnaw.com;</span><br><span class="line">    location / &#123;</span><br><span class="line">       proxy_pass http://10.92.1.137:8080;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name app.jnaw.com;</span><br><span class="line">    location / &#123;</span><br><span class="line">       proxy_pass http://10.92.1.138:8080;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name 7.7.9.138;</span><br><span class="line">    location / &#123;</span><br><span class="line">       proxy_pass http://10.92.9.138:8080;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="10-nginx负载均衡"><a href="#10-nginx负载均衡" class="headerlink" title="10.nginx负载均衡"></a>10.nginx负载均衡</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>可以针对http应用做一些分流的策略，比如针对域名、目录结构，它的正则</li>
+<li>规则比HAProxy更为强大和灵活</li>
+<li>Nginx对网络稳定性的依赖非常小，理论上能ping通就就能进行负载功能</li>
+<li>Nginx安装和配置比较简单，测试起来比较方便，它基本能把错误用日志打印出来</li>
+<li>可以承担高负载压力且稳定，在硬件不差的情况下一般能支撑几万次的并发量</li>
+<li>Nginx可以通过端口检测到服务器内部的故障，比如根据服务器处理网页返回的状态码、超时等等</li>
+<li>Nginx不仅仅是一款优秀的负载均衡器/反向代理软件，它同时也是功能强大的Web应用服务器</li>
+<li>Nginx现在作为Web反向加速缓存越来越成熟了，速度比传统的服务器更快</li>
+<li>Nginx也可作为静态网页和图片服务器，这方面的性能也无对手</li>
+</ul>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>Nginx仅能支持http、https和Email协议</li>
+<li>对后端服务器的健康检查，只支持通过端口来检测，不支持通过url来检测</li>
+<li>不支持Session的直接保持，但能通过ip_hash来解决</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
+    <article id="post-Linux常用命令" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/26/Linux常用命令/">Linux常用命令</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/12/26/Linux常用命令/" class="article-date">
+  <time datetime="2019-12-26T12:55:17.000Z" itemprop="datePublished">2019-12-26</time>
+</a>
+    
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h2 id="1-gpassword命令"><a href="#1-gpassword命令" class="headerlink" title="1.gpassword命令"></a>1.gpassword命令</h2><p>功能：管理组<br>用法：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gpasswd [-a user][-d user][-A user,...][-M user,...][-r][-R] groupname</span><br></pre></td></tr></table></figure></div>
+
+<p>参数</p>
+<ul>
+<li>-a:添加到用户组</li>
+<li>-d:从组删除</li>
+<li>-A:指定管理员</li>
+<li>-M:指定组成员和-A的用法差不多</li>
+<li>-r:删除密码</li>
+<li>-R:限制用户登入组，只有组内的成员才可以用newgrp加入该组</li>
+</ul>
+<p>示例：<br>将nginx加入到root组内</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gpasswd -a nginx root</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-mkdir命令"><a href="#2-mkdir命令" class="headerlink" title="2.mkdir命令"></a>2.mkdir命令</h2><p>功能：创建目录<br>用法：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir [参数] 目录</span><br></pre></td></tr></table></figure></div>
+
+<p>参数：</p>
+<ul>
+<li>-m=mode 为目录指定访问权限，与chmod相似</li>
+<li>-p 如果目录已经存在，则不会有错误提示。若父目录不存在，将会创建父目录。该选项常用于创建级联目录</li>
+<li>-v 为每个目录显示提示信息</li>
+</ul>
+<p>示例：<br>创建级联目录。同一目录下的子目录放在大括号内用逗号隔开</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p baklog&#123;bin,lib,<span class="built_in">log</span>/&#123;cep,dod,testlog&#125;&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-文件权限"><a href="#3-文件权限" class="headerlink" title="3.文件权限"></a>3.文件权限</h2><p>linux系统文件夹644、755、777权限设置详情，左至右，第一位数字代表文件所有者的权限，第二位：同用户组用户的权限，第三位：其他用户的权限</p>
+<ul>
+<li>读取权限：4  r 表示；</li>
+<li>写入—：2   w 表示；</li>
+<li>执行—：1   x 表示；</li>
+</ul>
+<p>通过4、2、1的组合得到以下几种权限：</p>
+<ul>
+<li>0 （没有权限）</li>
+<li>4 读取权限</li>
+<li>5 4+1 读取+执行</li>
+<li>6 4+2 读取+写入</li>
+<li>7 4+2+1 读取+写入+执行</li>
+</ul>
+<p>以755为例</p>
+<ul>
+<li>所有者有读取、写入、执行权限</li>
+<li>同用户组有读取、执行权限，但没有写入权限</li>
+<li>同上</li>
+</ul>
+<h2 id="4-chmod命令"><a href="#4-chmod命令" class="headerlink" title="4.chmod命令"></a>4.chmod命令</h2><p>功能：修改文件权限<br>用法</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod [-cfvr] [--<span class="built_in">help</span>][--version] mode file ...</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>u 表示该文件的拥有者，g 表示与该文件的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是。</li>
+<li>+ 表示增加权限、- 表示取消权限、= 表示唯一设定权限。</li>
+<li>r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该文件是个子目录或者该文件已经被设定过为可执行。</li>
+<li>-c : 若该文件权限确实已经更改，才显示其更改动作</li>
+<li>-f : 若该文件权限无法被更改也不要显示错误讯息</li>
+<li>-v : 显示权限变更的详细资料</li>
+<li>-R : 对目前目录下的所有文件与子目录进行相同的权限变更(即以递回的方式逐个变更)</li>
+<li>–help : 显示辅助说明</li>
+<li>–version : 显示版本</li>
+</ul>
+<p>示例：<br>将文件file1.txt 设置为所有人可读取</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod ugo+r file1.txt</span><br><span class="line">或</span><br><span class="line">chmod a+r file1.txt</span><br></pre></td></tr></table></figure></div>
+
+<p>此外chmod也可以用数字来表示权限</p>
+<p>语法：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod abc file</span><br></pre></td></tr></table></figure></div>
+
+<p>其中a,b,c各为一个数字，分别表示User、Group、及Other的权限。 r=4，w=2，x=1</p>
+<p>若要rwx属性则4+2+1=7；<br>若要rw-属性则4+2=6；<br>若要r-x属性则4+1=5。<br>以下两种写法，效果相同</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod a=rwx file</span><br><span class="line">chmod 777 file</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="5-ln命令"><a href="#5-ln命令" class="headerlink" title="5.ln命令"></a>5.ln命令</h2><p>用法：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln [参数][源文件或目录][目标文件或目录]</span><br></pre></td></tr></table></figure></div>
+
+<p>参数：</p>
+<ul>
+<li>-b 删除，覆盖以前建立的链接</li>
+<li>-d 允许超级用户制作目录的硬链接</li>
+<li>-f 强制执行</li>
+<li>-i 交互模式，文件存在则提示用户是否覆盖</li>
+<li>-n 把符号链接视为一般目录</li>
+<li>-s 软链接(符号链接)</li>
+<li>-v 显示详细的处理过程</li>
+</ul>
+<p>示例：</p>
+<p>创建软链接</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /srv/http/uploaded /srv/docker/uploaded</span><br></pre></td></tr></table></figure></div>
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-服务器安装" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -635,44 +841,12 @@
 </article>
 
   
-    <article id="post-SkillsOfStack" class="article global-container article-type-post" itemscope itemprop="blogPost">
-  
-    <header class="article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/28/SkillsOfStack/">believe</a>
-    </h1>
-  
 
-    </header>
-  
-  <div class="article-meta">
-    <a href="/2019/10/28/SkillsOfStack/" class="article-date">
-  <time datetime="2019-10-28T09:22:49.000Z" itemprop="datePublished">2019-10-28</time>
-</a>
+
+  <nav id="page-nav">
     
-    
-  </div>
-  
-
-  <div class="article-inner">
-    
-    <div class="article-content article-content-cloud" itemprop="articleBody">
-      
-        <h2 id="Codeing-Life"><a href="#Codeing-Life" class="headerlink" title="Codeing Life"></a>Codeing Life</h2><h3 id="Believe-Future"><a href="#Believe-Future" class="headerlink" title="Believe Future"></a>Believe Future</h3><p><img src="/img/xxwl.jpg" alt></p>
-<p>### </p>
-
-      
-    </div>
-    
-  </div>
-  
-  
-</article>
-
-  
-
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 
 </section>
@@ -706,7 +880,7 @@
   <div class="widget-box">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
     </div>
   </div>
 
@@ -718,6 +892,14 @@
       <ul>
         
           <li>
+            <a href="/2020/01/04/nginx/">nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/26/Linux常用命令/">Linux常用命令</a>
+          </li>
+        
+          <li>
             <a href="/2019/12/26/服务器安装/">服务器安装</a>
           </li>
         
@@ -727,14 +909,6 @@
         
           <li>
             <a href="/2019/11/06/集群dockerswarm-cluster/">集群dockerswarm/cluster</a>
-          </li>
-        
-          <li>
-            <a href="/2019/11/01/G1学习/">G1学习</a>
-          </li>
-        
-          <li>
-            <a href="/2019/11/01/cms详解/">CMS详解</a>
           </li>
         
       </ul>
@@ -757,7 +931,7 @@
       </div>
       <footer id="footer">
   <div class="foot-box global-width">
-    &copy; 2019 Gog &nbsp;&nbsp;
+    &copy; 2020 Gog &nbsp;&nbsp;
     Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
     <br>

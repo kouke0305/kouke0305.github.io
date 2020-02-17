@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Linux常用命令 | 七乘三十一</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  <meta name="keywords" content="汪 ， 汪 ，汪">
+  
+  <meta name="description" content="1.gpassword命令功能：管理组用法： 1sudo gpasswd [-a user][-d user][-A user,...][-M user,...][-r][-R] groupname  参数  -a:添加到用户组 -d:从组删除 -A:指定管理员 -M:指定组成员和-A的用法差不多 -r:删除密码 -R:限制用户登入组，只有组内的成员才可以用newgrp加入该组  示例：将ngin">
+<meta name="keywords" content="汪 ， 汪 ，汪">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令">
+<meta property="og:url" content="http://kouke0305.github.io/2019/12/26/Linux常用命令/index.html">
+<meta property="og:site_name" content="七乘三十一">
+<meta property="og:description" content="1.gpassword命令功能：管理组用法： 1sudo gpasswd [-a user][-d user][-A user,...][-M user,...][-r][-R] groupname  参数  -a:添加到用户组 -d:从组删除 -A:指定管理员 -M:指定组成员和-A的用法差不多 -r:删除密码 -R:限制用户登入组，只有组内的成员才可以用newgrp加入该组  示例：将ngin">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-02-17T12:16:32.585Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux常用命令">
+<meta name="twitter:description" content="1.gpassword命令功能：管理组用法： 1sudo gpasswd [-a user][-d user][-A user,...][-M user,...][-r][-R] groupname  参数  -a:添加到用户组 -d:从组删除 -A:指定管理员 -M:指定组成员和-A的用法差不多 -r:删除密码 -R:限制用户登入组，只有组内的成员才可以用newgrp加入该组  示例：将ngin">
+  
+    <link rel="alternate" href="/atom.xml" title="七乘三十一" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/default-avatar.jpg">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight.css">
+</head>
+</html>
+<body>
+  <div id="fullpage" class="mobile-nav-right">
+    
+      <div id="wrapper" title="背景图片来自网络">
+    
+    
+      <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title
+        
+        >首页</a>
+      
+        <a class="nav-item" href="/archives" title
+        
+        >归档</a>
+      
+        <a class="nav-item" href="/2019/11/01/hello-world/" title
+        
+        >嘿嘿</a>
+      
+    </nav>
+  </div>
+</header>
+      <div id="middlecontent" title class="global-width sidebar-right">
+        <section id="main"><article id="post-Linux常用命令" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      Linux常用命令
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/12/26/Linux常用命令/" class="article-date">
+  <time datetime="2019-12-26T12:55:17.000Z" itemprop="datePublished">2019-12-26</time>
+</a>
+    
+    
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h2 id="1-gpassword命令"><a href="#1-gpassword命令" class="headerlink" title="1.gpassword命令"></a>1.gpassword命令</h2><p>功能：管理组<br>用法：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gpasswd [-a user][-d user][-A user,...][-M user,...][-r][-R] groupname</span><br></pre></td></tr></table></figure></div>
+
+<p>参数</p>
+<ul>
+<li>-a:添加到用户组</li>
+<li>-d:从组删除</li>
+<li>-A:指定管理员</li>
+<li>-M:指定组成员和-A的用法差不多</li>
+<li>-r:删除密码</li>
+<li>-R:限制用户登入组，只有组内的成员才可以用newgrp加入该组</li>
+</ul>
+<p>示例：<br>将nginx加入到root组内</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gpasswd -a nginx root</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-mkdir命令"><a href="#2-mkdir命令" class="headerlink" title="2.mkdir命令"></a>2.mkdir命令</h2><p>功能：创建目录<br>用法：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir [参数] 目录</span><br></pre></td></tr></table></figure></div>
+
+<p>参数：</p>
+<ul>
+<li>-m=mode 为目录指定访问权限，与chmod相似</li>
+<li>-p 如果目录已经存在，则不会有错误提示。若父目录不存在，将会创建父目录。该选项常用于创建级联目录</li>
+<li>-v 为每个目录显示提示信息</li>
+</ul>
+<p>示例：<br>创建级联目录。同一目录下的子目录放在大括号内用逗号隔开</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p baklog&#123;bin,lib,<span class="built_in">log</span>/&#123;cep,dod,testlog&#125;&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-文件权限"><a href="#3-文件权限" class="headerlink" title="3.文件权限"></a>3.文件权限</h2><p>linux系统文件夹644、755、777权限设置详情，左至右，第一位数字代表文件所有者的权限，第二位：同用户组用户的权限，第三位：其他用户的权限</p>
+<ul>
+<li>读取权限：4  r 表示；</li>
+<li>写入—：2   w 表示；</li>
+<li>执行—：1   x 表示；</li>
+</ul>
+<p>通过4、2、1的组合得到以下几种权限：</p>
+<ul>
+<li>0 （没有权限）</li>
+<li>4 读取权限</li>
+<li>5 4+1 读取+执行</li>
+<li>6 4+2 读取+写入</li>
+<li>7 4+2+1 读取+写入+执行</li>
+</ul>
+<p>以755为例</p>
+<ul>
+<li>所有者有读取、写入、执行权限</li>
+<li>同用户组有读取、执行权限，但没有写入权限</li>
+<li>同上</li>
+</ul>
+<h2 id="4-chmod命令"><a href="#4-chmod命令" class="headerlink" title="4.chmod命令"></a>4.chmod命令</h2><p>功能：修改文件权限<br>用法</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod [-cfvr] [--<span class="built_in">help</span>][--version] mode file ...</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>u 表示该文件的拥有者，g 表示与该文件的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是。</li>
+<li>+ 表示增加权限、- 表示取消权限、= 表示唯一设定权限。</li>
+<li>r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该文件是个子目录或者该文件已经被设定过为可执行。</li>
+<li>-c : 若该文件权限确实已经更改，才显示其更改动作</li>
+<li>-f : 若该文件权限无法被更改也不要显示错误讯息</li>
+<li>-v : 显示权限变更的详细资料</li>
+<li>-R : 对目前目录下的所有文件与子目录进行相同的权限变更(即以递回的方式逐个变更)</li>
+<li>–help : 显示辅助说明</li>
+<li>–version : 显示版本</li>
+</ul>
+<p>示例：<br>将文件file1.txt 设置为所有人可读取</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod ugo+r file1.txt</span><br><span class="line">或</span><br><span class="line">chmod a+r file1.txt</span><br></pre></td></tr></table></figure></div>
+
+<p>此外chmod也可以用数字来表示权限</p>
+<p>语法：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod abc file</span><br></pre></td></tr></table></figure></div>
+
+<p>其中a,b,c各为一个数字，分别表示User、Group、及Other的权限。 r=4，w=2，x=1</p>
+<p>若要rwx属性则4+2+1=7；<br>若要rw-属性则4+2=6；<br>若要r-x属性则4+1=5。<br>以下两种写法，效果相同</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod a=rwx file</span><br><span class="line">chmod 777 file</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="5-ln命令"><a href="#5-ln命令" class="headerlink" title="5.ln命令"></a>5.ln命令</h2><p>用法：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln [参数][源文件或目录][目标文件或目录]</span><br></pre></td></tr></table></figure></div>
+
+<p>参数：</p>
+<ul>
+<li>-b 删除，覆盖以前建立的链接</li>
+<li>-d 允许超级用户制作目录的硬链接</li>
+<li>-f 强制执行</li>
+<li>-i 交互模式，文件存在则提示用户是否覆盖</li>
+<li>-n 把符号链接视为一般目录</li>
+<li>-s 软链接(符号链接)</li>
+<li>-v 显示详细的处理过程</li>
+</ul>
+<p>示例：</p>
+<p>创建软链接</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="SH"><figure class="iseeu highlight /sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /srv/http/uploaded /srv/docker/uploaded</span><br></pre></td></tr></table></figure></div>
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/2020/01/04/nginx/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            nginx
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/2019/12/26/服务器安装/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">服务器安装</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    <link rel="stylesheet" href="/css/gitment.css"> 
+<script src="/js/gitment.js"></script>
+
+<div id="gitmentContainer"></div>
+
+<script>
+var gitment = new Gitment({
+  owner: '',
+  repo: '',
+  oauth: {
+    client_id: '',
+    client_secret: '',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+        <aside id="sidebar">
+  
+    <div class="widget-box">
+  <div class="avatar-box">
+    <img class="avatar" src="/images/default-avatar.jpg" title="图片来自网络"></img>
+    <h3 class="avatar-name">
+      
+        ROCK CODER
+      
+    </h3>
+    <p class="avatar-slogan">
+      走的时候没有带走美猴王的画像
+    </p>
+  </div>
+</div>
+
+
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/01/04/nginx/">nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/26/Linux常用命令/">Linux常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/26/服务器安装/">服务器安装</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/26/git仓库迁移/">git仓库迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/06/集群dockerswarm-cluster/">集群dockerswarm/cluster</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+      <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="/2019/11/01/hello-world/" title target='_blank'
+        >一起摇滚吗</a>
+      
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  <div class="foot-box global-width">
+    &copy; 2020 Gog &nbsp;&nbsp;
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">不蒜子告之   阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+  </div>
+</footer>
+      <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script>
+if (!window.jQuery) {
+var script = document.createElement('script');
+script.src = "/js/jquery-2.0.3.min.js";
+document.body.write(script);
+}
+</script>
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+    </div>
+    <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/2019/11/01/hello-world/" class="mobile-nav-link">嘿嘿</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>    
+  </div>
+</body>
+</html>
